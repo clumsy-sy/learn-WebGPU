@@ -1,0 +1,11 @@
+Diagnostics:
+  ClangTidy:
+    Add: [ performance-*, portability-*, modernize-* ]
+    CheckOptions:
+      readability-identifier-naming.VariableCase: CamelCase
+  UnusedIncludes: Strict
+
+CompileFlags:
+  Add: [-std=c++20, -I, "C:/Users/Sy200/Desktop/Project/learn-WebGPU/WebGPU-distribution-dawn-6512/include", 
+        -I, "C:/Users/Sy200/Desktop/Project/learn-WebGPU/build/_deps/dawn-src/include",
+        -I, "C:/Users/Sy200/Desktop/Project/learn-WebGPU/build/_deps/dawn-build/gen/include"]
