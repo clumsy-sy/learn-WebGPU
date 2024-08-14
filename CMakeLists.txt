@@ -8,8 +8,22 @@ project(
 # Include webgpu directory, to define the 'webgpu' target
 add_subdirectory(WebGPU-distribution-dawn-6512)
 
+# 设置要查找的文件夹路径
+set(SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
+
+# cpp 文件列表
+set(CPP_FILES_LIST)
+# h 文件列表
+set(H_FILES_LIST)
+
+file(GLOB_RECURSE NEW_CPP_FILES "${SOURCE_DIR}/utils/*.cpp")
+list(APPEND CPP_FILES_LIST ${NEW_CPP_FILES})
+
+file(GLOB_RECURSE NEW_H_FILES "${SOURCE_DIR}/utils/*.h")
+list(APPEND H_FILES_LIST ${NEW_H_FILES})
+
 # We specify that we want to create a target of type executable, called "App"
-add_executable(App src/main.cpp)
+add_executable(App ${SOURCE_DIR}/main.cpp ${CPP_FILES_LIST} ${H_FILES_LIST})
 
 # Add the 'webgpu' target as a dependency of our App
 target_link_libraries(App PRIVATE webgpu)
