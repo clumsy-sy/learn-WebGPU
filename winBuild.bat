@@ -11,22 +11,22 @@ if "%~1"=="" (
     )
 
     REM 使用 CMake 生成构建系统
-    cmake -S . -B build -GNinja -DCMAKE_EXPORT_COMPILE_COMMANDS=1
+    cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=1
     @REM cmake . -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -B build
 
     REM 使用 CMake 编译项目
     cmake --build build --parallel 16
     
 ) else if "%1"=="run" (
-    REM 检查是否存在 ./build/Debug/App.exe
+    REM 检查是否存在 .\build\Debug\App.exe
     if exist ".\build\Debug\App.exe" (
-        REM 执行 ./build/Debug/App.exe
+        REM 执行 .\build\Debug\App.exe
         .\build\Debug\App.exe
     ) else (
-        echo Error: ./build/Debug/App.exe not found.
-        exit /b 1
+        echo Error: .\build\Debug\App.exe not found.
+        exit \b 1
     )
-) else if "%1"=="EMSCRIPTEN" (
+) else if "%1"=="emscripten" (
     echo Input parameter detected: EMSCRIPTEN. Compiling with EMSCRIPTEN support...
 
     REM 检查是否存在 build 文件夹，如果不存在则创建
@@ -36,7 +36,7 @@ if "%~1"=="" (
     )
 
     REM 使用 CMake 生成构建系统并启用 EMSCRIPTEN
-    cmake -S . -B build_emscripten -DCMAKE_TOOLCHAIN_FILE=path/to/emscripten.cmake
+    cmake -S . -B build_emscripten -DCMAKE_TOOLCHAIN_FILE=C:\Users\Sy200\Desktop\learn-WebGPU\emsdk\upstream\emscripten\cmake\Modules\Platform\Emscripten.cmake -DCMAKE_CROSSCOMPILING_EMULATOR=C:\Users\Sy200\Desktop\learn-WebGPU\emsdk\node\18.20.3_64bit\bin\node.exe -G Ninja
     @REM cmake . -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -B build_emscripten
 
     REM 使用 CMake 编译项目

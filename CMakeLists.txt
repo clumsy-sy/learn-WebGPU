@@ -5,8 +5,20 @@ project(
 	LANGUAGES CXX C # programming languages used by the project
 )
 
+# Add glfw
+if (NOT EMSCRIPTEN)
+	add_subdirectory(glfw)
+else()
+	# Emscripten has built-in support for GLFW but requires the `-sUSE_GLFW=3` link option:
+	add_library(glfw INTERFACE)
+	target_link_options(glfw INTERFACE -sUSE_GLFW=3)
+endif()
+
 # Include webgpu directory, to define the 'webgpu' target
 add_subdirectory(WebGPU-distribution-dawn-6512)
+
+# Add a little extension of glfw that connects it to WebGPU
+add_subdirectory(glfw3webgpu)
 
 # 设置要查找的文件夹路径
 set(SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
@@ -26,7 +38,7 @@ list(APPEND H_FILES_LIST ${NEW_H_FILES})
 add_executable(App ${SOURCE_DIR}/main.cpp ${CPP_FILES_LIST} ${H_FILES_LIST})
 
 # Add the 'webgpu' target as a dependency of our App
-target_link_libraries(App PRIVATE webgpu)
+target_link_libraries(App PRIVATE glfw webgpu glfw3webgpu)
 
 # The application's binary must find wgpu.dll or libwgpu.so at runtime,
 # so we automatically copy it (it's called WGPU_RUNTIME_LIB in general)
@@ -46,7 +58,7 @@ if (MSVC)
 	set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 	target_compile_options(App PRIVATE /W4)
 else()
-	target_compile_options(App PRIVATE -Wall -Wextra -pedantic)
+	target_compile_options(App PRIVATE -Wall)
 endif()
 
 # Generate "schemes" for XCode (macOS) and enable shader debugging (will become handy later on)

@@ -20,6 +20,20 @@ make emscripten
 make run
 ```
 
+## windows
+
+```sh
+# C++ 编译
+.\winBuild.bat
+
+# 编译到 wasm
+.\winBuild.bat emscripten
+
+# 运行
+.\winBuild.bat run
+
+```
+
 ### 编译问题
 
 
