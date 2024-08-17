@@ -1,4 +1,10 @@
 #include <webgpu/webgpu.h>
+
+// 下面的三个宏由 cmake 控制
+// #define WEBGPU_BACKEND_DAWN
+// #define WEBGPU_BACKEND_WGPU
+// #define WEBGPU_BACKEND_EMSCRIPTEN
+
 #ifdef WEBGPU_BACKEND_WGPU
 #  include <webgpu/wgpu.h>
 #endif // WEBGPU_BACKEND_WGPU
@@ -15,8 +21,10 @@
 int main() {
 	auto& app = webgpu::Application::GetInstance();
 
-	if (!app->Initialize()) {
-		return 1;
+	try {
+		app->Initialize();
+	} catch (const std::runtime_error& e) {
+		std::cerr << "Exception caught: " << e.what() << '\n';
 	}
 
 #ifdef __EMSCRIPTEN__
@@ -32,7 +40,12 @@ int main() {
 	//                                     ^^^^ 1. We pass the address of our application object.
 #else // __EMSCRIPTEN__
 	while (app->IsRunning()) {
-		app->MainLoop();
+		try {
+			app->MainLoop();
+    } catch (const std::runtime_error& e) {
+			std::cerr << "Exception caught: " << e.what() << '\n';
+			return -1;
+    }
 	}
 #endif // __EMSCRIPTEN__
 

@@ -9,6 +9,8 @@
 #include <cassert>
 
 
+namespace webgpu {
+
 /**
  * @brief 同步请求 WebGPU Adapter
  *
@@ -233,4 +235,6 @@ void inspectDevice(WGPUDevice device) {
 		std::cout << " - maxComputeWorkgroupSizeZ: " << limits.limits.maxComputeWorkgroupSizeZ << '\n';
 		std::cout << " - maxComputeWorkgroupsPerDimension: " << limits.limits.maxComputeWorkgroupsPerDimension << '\n';
 	}
+}
+
 }

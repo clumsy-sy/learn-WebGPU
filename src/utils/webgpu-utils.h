@@ -2,6 +2,8 @@
 
 #include <webgpu/webgpu.h>
 
+namespace webgpu {
+
 // 相当于   const adapter = await navigator.gpu.requestAdapter(options);
 auto requestAdapterSync(WGPUInstance instance, WGPURequestAdapterOptions const * options) -> WGPUAdapter;
 
@@ -16,3 +18,5 @@ void inspectAdapter(WGPUAdapter adapter);
 
 // 显示一个设备的基本信息
 void inspectDevice(WGPUDevice device);
+
+}
