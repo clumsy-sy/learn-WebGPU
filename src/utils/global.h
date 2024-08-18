@@ -7,6 +7,7 @@
 #include <iostream>
 #include <utility>
 #include <stdexcept>
+#include <fstream>
 
 #include <webgpu/webgpu.hpp>
 #include <GLFW/glfw3.h>

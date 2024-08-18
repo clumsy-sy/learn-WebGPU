@@ -2,6 +2,7 @@
 
 #include "../utils/global.h"
 #include "../utils/data-structure.h"
+#include <string>
 
 
 namespace webgpu {
@@ -43,7 +44,20 @@ public:
 	bool IsRunning();
 
 private:
+	/**
+		* @brief 获取下一个可用的纹理视图
+		* @return 纹理
+		*/
 	wgpu::TextureView GetNextSurfaceTextureView();
+	/**
+		* @brief 初始化管线
+		*/
+	void InitializePipeline();
+
+	/**
+		* @brief 读取着色器文件
+ 		*/
+	std::string ReadShaderFile(const std::string& filePath);
 
 private:
 	Application() {} // Private constructor
@@ -60,6 +74,12 @@ private:
 	wgpu::Surface surface = nullptr;
 	// 错误回调
 	std::unique_ptr<wgpu::ErrorCallback> uncapturedErrorCallbackHandle;
+	// 渲染格式
+	wgpu::TextureFormat surfaceFormat = wgpu::TextureFormat::Undefined;
+	// 渲染管线
+	wgpu::RenderPipeline pipeline = nullptr;
+	// 着色器代码
+	std::string shaderCode = "C:/Users/Sy200/Desktop/learn-WebGPU/src/shader/base.wgsl";
 };
 
   
