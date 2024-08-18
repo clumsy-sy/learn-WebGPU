@@ -1,5 +1,3 @@
-#include <webgpu/webgpu.h>
-
 // 下面的三个宏由 cmake 控制
 // #define WEBGPU_BACKEND_DAWN
 // #define WEBGPU_BACKEND_WGPU

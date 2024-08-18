@@ -1,6 +1,9 @@
 #pragma once
 
-#include <webgpu/webgpu.h>
+/**
+ * 只适用纯 C 代码
+ */
+#include <webgpu/webgpu.hpp>
 
 namespace webgpu {
 
@@ -18,5 +21,6 @@ void inspectAdapter(WGPUAdapter adapter);
 
 // 显示一个设备的基本信息
 void inspectDevice(WGPUDevice device);
+
 
 }

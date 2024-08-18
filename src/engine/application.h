@@ -1,26 +1,15 @@
 #pragma once
 
-#include <cstddef>
-#include <cstdint>
-#include <memory>
-#include <iostream>
-
-
-#include <utility>
-#include <webgpu/webgpu.h>
-#include <GLFW/glfw3.h>
-#include <glfw3webgpu.h>
-
-#include "../utils/webgpu-utils.h"
+#include "../utils/global.h"
 #include "../utils/data-structure.h"
 
 
 namespace webgpu {
 
-static window_size_t window_size = { 800, 600 };
-
 class Application {
 public:
+	// 窗口大小
+	window_size_t window_size = { 800, 600 };
 	// 获取实例
 	static std::unique_ptr<Application>& GetInstance() {
 		static std::unique_ptr<Application> instance(new Application());
@@ -54,7 +43,7 @@ public:
 	bool IsRunning();
 
 private:
-	WGPUTextureView GetNextSurfaceTextureView();
+	wgpu::TextureView GetNextSurfaceTextureView();
 
 private:
 	Application() {} // Private constructor
@@ -64,11 +53,13 @@ private:
 	// GLFW 窗口
 	GLFWwindow* window = nullptr;
 	// WebGPU device
-	WGPUDevice device;
+	wgpu::Device device = nullptr;
 	// grraphics or computer queue
-	WGPUQueue queue;
+	wgpu::Queue queue = nullptr;
 	// surface 对象
-	WGPUSurface surface;
+	wgpu::Surface surface = nullptr;
+	// 错误回调
+	std::unique_ptr<wgpu::ErrorCallback> uncapturedErrorCallbackHandle;
 };
 
   

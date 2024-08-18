@@ -33,10 +33,10 @@ list(APPEND CPP_FILES_LIST ${NEW_CPP_FILES})
 file(GLOB_RECURSE NEW_CPP_FILES "${SOURCE_DIR}/utils/*.cpp")
 list(APPEND CPP_FILES_LIST ${NEW_CPP_FILES})
 
-file(GLOB_RECURSE NEW_H_FILES "${SOURCE_DIR}/engine/*.h")
-list(APPEND H_FILES_LIST ${NEW_H_FILES})
-file(GLOB_RECURSE NEW_H_FILES "${SOURCE_DIR}/utils/*.h")
-list(APPEND H_FILES_LIST ${NEW_H_FILES})
+# file(GLOB_RECURSE NEW_H_FILES "${SOURCE_DIR}/engine/*.h")
+# list(APPEND H_FILES_LIST ${NEW_H_FILES})
+# file(GLOB_RECURSE NEW_H_FILES "${SOURCE_DIR}/utils/*.h")
+# list(APPEND H_FILES_LIST ${NEW_H_FILES})
 
 # We specify that we want to create a target of type executable, called "App"
 add_executable(App ${SOURCE_DIR}/main.cpp ${CPP_FILES_LIST} ${H_FILES_LIST})
@@ -54,7 +54,7 @@ set_target_properties(App PROPERTIES
 	CXX_STANDARD 20
 	CXX_STANDARD_REQUIRED ON
 	CXX_EXTENSIONS OFF
-	COMPILE_WARNING_AS_ERROR ON
+	COMPILE_WARNING_AS_ERROR OFF
 )
 
 # Also add more warnings, to minimize mistakes
