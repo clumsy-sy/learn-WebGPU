@@ -8,19 +8,22 @@
 #include <utility>
 #include <stdexcept>
 #include <fstream>
+#include <array>
+#include <filesystem>
 
 #include <webgpu/webgpu.hpp>
 #include <GLFW/glfw3.h>
 #include <glfw3webgpu.h>
+
+#include <glm/glm.hpp>
+#include <glm/ext.hpp>
+
+#include "tiny-obj-loader.h"
+
+
 #ifdef __EMSCRIPTEN__
 #  include <emscripten.h>
 #endif // __EMSCRIPTEN__
-
-
-
-
-
-
 
 
 #define LOG_ENABLED
@@ -32,3 +35,7 @@
   #define LOG(...)
   #define LOG_M(...)
 #endif
+
+
+
+constexpr float PI = 3.14159265358979323846f;

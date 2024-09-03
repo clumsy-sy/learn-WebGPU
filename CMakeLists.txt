@@ -20,6 +20,8 @@ add_subdirectory(WebGPU-distribution-dawn-6512)
 # Add a little extension of glfw that connects it to WebGPU
 add_subdirectory(glfw3webgpu)
 
+add_subdirectory(glm)
+
 # 设置要查找的文件夹路径
 set(SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 
@@ -42,7 +44,7 @@ list(APPEND CPP_FILES_LIST ${NEW_CPP_FILES})
 add_executable(App ${SOURCE_DIR}/main.cpp ${CPP_FILES_LIST} ${H_FILES_LIST})
 
 # Add the 'webgpu' target as a dependency of our App
-target_link_libraries(App PRIVATE glfw webgpu glfw3webgpu)
+target_link_libraries(App PRIVATE glm glfw webgpu glfw3webgpu)
 
 # The application's binary must find wgpu.dll or libwgpu.so at runtime,
 # so we automatically copy it (it's called WGPU_RUNTIME_LIB in general)
@@ -78,3 +80,9 @@ if (EMSCRIPTEN)
 	# Generate a full web page rather than a simple WebAssembly module
 	set_target_properties(App PROPERTIES SUFFIX ".html")
 endif()
+
+# Ignore a warning that GLM requires to bypass
+if (MSVC)
+	# Disable warning C4201: nonstandard extension used: nameless struct/union
+	target_compile_options(App PUBLIC /wd4201)
+endif (MSVC)

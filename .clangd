@@ -10,4 +10,5 @@ CompileFlags:
         -I, "C:/Users/Sy200/Desktop/Project/learn-WebGPU/build/_deps/dawn-src/include",
         -I, "C:/Users/Sy200/Desktop/Project/learn-WebGPU/build/_deps/dawn-build/gen/include",
         -I, "C:/Users/Sy200/Desktop/learn-WebGPU/glfw/include",
-        -I, "C:/Users/Sy200/Desktop/learn-WebGPU/glfw3webgpu"]
+        -I, "C:/Users/Sy200/Desktop/learn-WebGPU/glfw3webgpu",
+        -I, "C:/Users/Sy200/Desktop/learn-WebGPU"]

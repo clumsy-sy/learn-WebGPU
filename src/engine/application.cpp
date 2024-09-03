@@ -26,6 +26,25 @@ bool Application::Initialize() {
 	
 	wgpu::Adapter adapter = instance.requestAdapter(adapterOpts);
 	LOG("Got adapter: %p", static_cast<void*>(&adapter));
+
+	wgpu::SupportedLimits supportedLimits;
+	adapter.getLimits(&supportedLimits);
+
+	// 配置 device 的限制
+	wgpu::RequiredLimits requiredLimits = wgpu::Default;
+	requiredLimits.limits.maxVertexAttributes = 3;
+	requiredLimits.limits.maxVertexBuffers = 1;
+	requiredLimits.limits.maxBufferSize = 100000 * sizeof(VertexAttributes);
+	requiredLimits.limits.maxVertexBufferArrayStride = sizeof(VertexAttributes);
+	requiredLimits.limits.minStorageBufferOffsetAlignment = supportedLimits.limits.minStorageBufferOffsetAlignment;
+	requiredLimits.limits.minUniformBufferOffsetAlignment = supportedLimits.limits.minUniformBufferOffsetAlignment;
+	requiredLimits.limits.maxInterStageShaderComponents = 6;
+	requiredLimits.limits.maxBindGroups = 1;
+	requiredLimits.limits.maxUniformBuffersPerShaderStage = 1;
+	requiredLimits.limits.maxUniformBufferBindingSize = 16 * 4 * sizeof(float);
+	requiredLimits.limits.maxTextureDimension1D = window_size.width;
+	requiredLimits.limits.maxTextureDimension2D = window_size.height;
+	requiredLimits.limits.maxTextureArrayLayers = 1;
 	
 	// 不在需要 instance，释放
 	instance.release();
@@ -38,7 +57,7 @@ bool Application::Initialize() {
 	deviceDesc.nextInChain = nullptr;
 	deviceDesc.label = "Physical Device"; // <--  随便命名
 	deviceDesc.requiredFeatureCount = 0; // <--  没有特殊需求
-	deviceDesc.requiredLimits = nullptr; // <--  没有特殊限制
+	deviceDesc.requiredLimits = &requiredLimits; // <--  限制条件
 	deviceDesc.defaultQueue.nextInChain = nullptr;
 	deviceDesc.defaultQueue.label = "The default queue";
 
