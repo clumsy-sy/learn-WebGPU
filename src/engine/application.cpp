@@ -9,12 +9,14 @@ bool Application::Initialize() {
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API); // <--  glfwCreateWindow 额外信息
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); // <--  glfwWindow 大小不可改变
 	window = glfwCreateWindow(window_size.width, window_size.height, "Learn WebGPU", nullptr, nullptr); // <--  glfwCreateWindow 创建窗口
+	checkNullPointerError(window, "glfw window");
 	// end 0.0 -----
 
   // begin 1.0 -----
 	// 创建实例
 	wgpu::InstanceDescriptor instanceDescriptor = {};
 	wgpu::Instance instance = wgpu::createInstance(instanceDescriptor);
+	checkNullPointerError(instance, "instance");
 	
 	// 获取适配器
 	LOG("Requesting adapter...\n");
