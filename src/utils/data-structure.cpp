@@ -1,6 +1,45 @@
 #include "data-structure.h"
 
+#define TINYOBJLOADER_IMPLEMENTATION
+#include "tiny-obj-loader.h"
+
 namespace webgpu {
+
+
+ std::ostream& operator<<(std::ostream& os, const Uniform& uniform){
+    os << "projectionMatrix:\n";
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            os << uniform.projectionMatrix[i][j] << ' ';
+        }
+        os << '\n';
+    }
+
+    os << "\nviewMatrix:\n";
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            os << uniform.viewMatrix[i][j] << ' ';
+        }
+        os << '\n';
+    }
+
+    os << "\nmodelMatrix:\n";
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            os << uniform.modelMatrix[i][j] << ' ';
+        }
+        os << '\n';
+    }
+
+    os << "\ncolor: ";
+    for (auto& c : uniform.color) {
+        os << c << ' ';
+    }
+
+    os << "\ntime: " << uniform.time;
+
+    return os;
+}
 
 bool loadGeometryFromObj(const std::filesystem::path& path, std::vector<VertexAttributes>& vertexData) {
 	tinyobj::attrib_t attrib;
@@ -15,11 +54,11 @@ bool loadGeometryFromObj(const std::filesystem::path& path, std::vector<VertexAt
 
 	// Check errors
 	if (!warn.empty()) {
-		std::cout << warn << '\n';
+		std::cout << "[LoadObj]" << warn << '\n';
 	}
 
 	if (!err.empty()) {
-		std::cerr << err << '\n';
+		std::cerr << "[LoadObj]" << err << '\n';
 	}
 
 	if (!ret) {
@@ -30,6 +69,7 @@ bool loadGeometryFromObj(const std::filesystem::path& path, std::vector<VertexAt
 	vertexData.clear();
 	for (const auto& shape : shapes) {
 		size_t offset = vertexData.size();
+		printf("offest = %zu\n", offset);
 		vertexData.resize(offset + shape.mesh.indices.size());
 
 		for (size_t i = 0; i < shape.mesh.indices.size(); ++i) {
@@ -55,7 +95,7 @@ bool loadGeometryFromObj(const std::filesystem::path& path, std::vector<VertexAt
 			};
 		}
 	}
-
+	LOG("Load obj finish, vertexData size = %zu\n", vertexData.size());
 	return true;
 }
 

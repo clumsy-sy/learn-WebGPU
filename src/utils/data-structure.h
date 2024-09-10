@@ -30,6 +30,7 @@ struct Uniform {
     float _pad[3];
 };
 
+std::ostream& operator<<(std::ostream& os, const Uniform& uniform);
 /**
  * 一个描述顶点缓冲区中数据布局的结构体
  * 不会实例化 ，但是会对它使用 `sizeof`（获取大小） 和 `offsetof`（获取偏移）

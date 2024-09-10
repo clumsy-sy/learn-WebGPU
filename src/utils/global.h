@@ -18,9 +18,6 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
-#include "tiny-obj-loader.h"
-
-
 #ifdef __EMSCRIPTEN__
 #  include <emscripten.h>
 #endif // __EMSCRIPTEN__
@@ -42,7 +39,7 @@ namespace webgpu {
 constexpr float PI = 3.14159265358979323846f;
 
 // 输出空指针导致的报错
-void checkNullPointerError(void *p, std::string name);
+bool checkNullPointerError(void *p, const std::string& message);
 
 }
 

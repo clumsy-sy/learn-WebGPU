@@ -2,15 +2,16 @@
 
 #include "../utils/global.h"
 #include "../utils/data-structure.h"
-#include <string>
+#include "../utils/utils.h"
+
+#include "glfw-window.h"
 
 
 namespace webgpu {
 
 class Application {
 public:
-	// 窗口大小
-	window_size_t window_size = { 800, 600 };
+	
 	// 获取实例
 	static std::unique_ptr<Application>& GetInstance() {
 		static std::unique_ptr<Application> instance(new Application());
@@ -49,6 +50,11 @@ private:
 		* @return 纹理
 		*/
 	wgpu::TextureView GetNextSurfaceTextureView();
+
+	/**
+		* @brief 初始化实例
+		*/
+	void InitInstance();
 	/**
 		* @brief 初始化管线
 		*/
@@ -59,13 +65,16 @@ private:
  		*/
 	std::string ReadShaderFile(const std::string& filePath);
 
+
+
 private:
 	Application() {} // Private constructor
 
 	// 初始化和主循环之间共享的所有变量放在这里
 
 	// GLFW 窗口
-	GLFWwindow* window = nullptr;
+	WGPUGLFWWindow wgpuGLFWWindow;
+
 	// WebGPU device
 	wgpu::Device device = nullptr;
 	// grraphics or computer queue
@@ -74,12 +83,34 @@ private:
 	wgpu::Surface surface = nullptr;
 	// 错误回调
 	std::unique_ptr<wgpu::ErrorCallback> uncapturedErrorCallbackHandle;
+	// 着色器模块
+	wgpu::ShaderModule shaderModule = nullptr;
 	// 渲染格式
-	wgpu::TextureFormat surfaceFormat = wgpu::TextureFormat::Undefined;
+	// wgpu::TextureFormat surfaceFormat = wgpu::TextureFormat::Undefined;
+	wgpu::TextureFormat swapChainFormat = wgpu::TextureFormat::Undefined;
 	// 渲染管线
 	wgpu::RenderPipeline pipeline = nullptr;
+	// 交换链
+	wgpu::SwapChain swapChain = nullptr;
+	// 顶点缓冲区
+	wgpu::Buffer vertexBuffer = nullptr;
+	// 索引缓冲区
+	std::vector<VertexAttributes> vertexData;
+	// 深度纹理
+	wgpu::Texture depthTexture = nullptr;
+	// 深度纹理视图
+	wgpu::TextureView depthTextureView = nullptr;
+	// uniform
+	Uniform uniform = {};
+	// uniform buffer
+	wgpu::Buffer uniformBuffer = nullptr;
+	// bind group
+	wgpu::BindGroup bindGroup = nullptr;
 	// 着色器代码
-	std::string shaderCode = "C:/Users/Sy200/Desktop/learn-WebGPU/src/shader/base.wgsl";
+	std::string shaderCodeFilePath = "C:/Users/Sy200/Desktop/learn-WebGPU/src/shader/base.wgsl";
+	// ojb 地址
+	std::string objFilePath = "C:/Users/Sy200/Desktop/learn-WebGPU/resources/pyramid.obj";
+	// std::string objFilePath = "C:/Users/Sy200/Desktop/learn-WebGPU/resources/bunny/bunny.obj";
 };
 
   
